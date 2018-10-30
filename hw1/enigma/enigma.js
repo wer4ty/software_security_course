@@ -5,9 +5,9 @@
 
 class Rotor {
 
-	constructor(p, id, tn){
+	constructor(p, ind, tn){
 		this.position = p;
-		this.id = id;
+		this.index = ind;
 		this.forward_permutation = this.mixing();
 		this.turnover_notch = tn;
 	}
@@ -26,13 +26,13 @@ class Rotor {
 	}
 
 	getPosition() { console.log(this.position); }
-	getId() { console.log(this.id); }
+	getIndex() { console.log(this.index); }
 	getForwardPermutation() { console.log(this.forward_permutation); }
 	getTurnoverNotch() { console.log(this.turnover_notch); }
 }
 
 let I = new Rotor("L", 1, "QR");
 I.getPosition();
-I.getId();
+I.getIndex();
 I.getForwardPermutation();
 I.getTurnoverNotch();
