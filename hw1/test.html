@@ -6,10 +6,239 @@
 </head>
 <body>
     <div class="container">
-        
+    	<div class="row">
+    		<div class="col-lg-4">
+    			<h3>Text Encoding</h3>
+    			
+    			<p>Input<br>
+    			<input type="text" id="plaintext">
+    			<button id="trigger">Encode</button>
+    			</p>
+
+    			<p>Ciphertext<br>
+    			<input type="text" readonly="true" id="ciphertext">
+    			</p>
+    		</div>
+
+    		<div class="col-lg-8">
+    			<h3>Rotors</h3>
+    			<p>
+    				<div class="row">
+    				<div class="col-lg-1"><input class='rotor' type="checkbox" id="r1" checked="checked"></div>
+    				<div class="col-lg-2">Rotor I</div>
+    				    				<div class="col-lg-2">
+    					<select class="ind">
+    						<option>1</option>
+    						<option>2</option>
+    						<option>3</option>
+    						<option>4</option>
+    						<option>5</option>
+    						<option>6</option>
+    						<option>7</option>
+    						<option>8</option>
+    						<option>9</option>
+    						<option>10</option>
+    						<option>11</option>
+    						<option>12</option>
+    						<option>13</option>
+    						<option>14</option>
+    						<option>15</option>
+    						<option>16</option>
+    						<option>17</option>
+    						<option>18</option>
+    						<option>19</option>
+    						<option>20</option>
+    						<option>21</option>
+    						<option>22</option>
+    						<option>23</option>
+    						<option>24</option>
+    						<option>25</option>
+    						<option>26</option>
+    					</select>
+    				</div>
+    				<div class="col-lg-6 permutation">EKMFLGDQVZNTOWYHXUSPAIBRCJ</div>
+    				<div class="col-lg-1 permutation"> Q=>R</div>
+    				</div>
+    			</p>
+
+    			<p>
+    				<div class="row">
+    				<div class="col-lg-1"><input class='rotor' type="checkbox" id="r2" checked="checked"></div>
+    				<div class="col-lg-2">Rotor II</div>
+    				    				<div class="col-lg-2">
+    					<select class="ind">
+    						<option>1</option>
+    						<option>2</option>
+    						<option>3</option>
+    						<option>4</option>
+    						<option>5</option>
+    						<option>6</option>
+    						<option>7</option>
+    						<option>8</option>
+    						<option>9</option>
+    						<option>10</option>
+    						<option>11</option>
+    						<option>12</option>
+    						<option>13</option>
+    						<option>14</option>
+    						<option>15</option>
+    						<option>16</option>
+    						<option>17</option>
+    						<option>18</option>
+    						<option>19</option>
+    						<option>20</option>
+    						<option>21</option>
+    						<option>22</option>
+    						<option>23</option>
+    						<option>24</option>
+    						<option>25</option>
+    						<option>26</option>
+    					</select>
+    				</div>
+    				<div class="col-lg-6 permutation">AJDKSIRUXBLHWTMCQGZNPYFVOE</div>
+    				<div class="col-lg-1 permutation"> E=>F</div>
+    				</div>
+    			</p>
+
+    			<p>
+    				<div class="row">
+    				<div class="col-lg-1"><input class='rotor' type="checkbox" id="r3" checked="checked"></div>
+    				<div class="col-lg-2">Rotor III</div>
+    				    				<div class="col-lg-2">
+    					<select class="ind">
+    						<option>1</option>
+    						<option>2</option>
+    						<option>3</option>
+    						<option>4</option>
+    						<option>5</option>
+    						<option>6</option>
+    						<option>7</option>
+    						<option>8</option>
+    						<option>9</option>
+    						<option>10</option>
+    						<option>11</option>
+    						<option>12</option>
+    						<option>13</option>
+    						<option>14</option>
+    						<option>15</option>
+    						<option>16</option>
+    						<option>17</option>
+    						<option>18</option>
+    						<option>19</option>
+    						<option>20</option>
+    						<option>21</option>
+    						<option>22</option>
+    						<option>23</option>
+    						<option>24</option>
+    						<option>25</option>
+    						<option>26</option>
+    					</select>
+    				</div>
+    				<div class="col-lg-6 permutation">BDFHJLCPRTXVZNYEIWGAKMUSQO</div>
+    				<div class="col-lg-1 permutation"> V=>W</div>
+    				</div>
+    			</p>
+
+    			<p>
+    				<div class="row">
+    				<div class="col-lg-1"><input class='rotor' type="checkbox" id="r4" checked="false"></div>
+    				<div class="col-lg-2">Rotor IV</div>
+    				    				<div class="col-lg-2">
+    					<select class="ind">
+    						<option>1</option>
+    						<option>2</option>
+    						<option>3</option>
+    						<option>4</option>
+    						<option>5</option>
+    						<option>6</option>
+    						<option>7</option>
+    						<option>8</option>
+    						<option>9</option>
+    						<option>10</option>
+    						<option>11</option>
+    						<option>12</option>
+    						<option>13</option>
+    						<option>14</option>
+    						<option>15</option>
+    						<option>16</option>
+    						<option>17</option>
+    						<option>18</option>
+    						<option>19</option>
+    						<option>20</option>
+    						<option>21</option>
+    						<option>22</option>
+    						<option>23</option>
+    						<option>24</option>
+    						<option>25</option>
+    						<option>26</option>
+    					</select>
+    				</div>
+    				<div class="col-lg-6 permutation">ESOVPZJAYQUIRHXLNFTGKDCMWB</div>
+    				<div class="col-lg-1 permutation"> J=>K</div>
+    				</div>
+    			</p>
+
+    			<p>
+    				<div class="row">
+    				<div class="col-lg-1"><input class='rotor' type="checkbox" id="r5" checked="false"></div>
+    				<div class="col-lg-2">Rotor V</div>
+    				<div class="col-lg-2">
+    					<select class="ind">
+    						<option>1</option>
+    						<option>2</option>
+    						<option>3</option>
+    						<option>4</option>
+    						<option>5</option>
+    						<option>6</option>
+    						<option>7</option>
+    						<option>8</option>
+    						<option>9</option>
+    						<option>10</option>
+    						<option>11</option>
+    						<option>12</option>
+    						<option>13</option>
+    						<option>14</option>
+    						<option>15</option>
+    						<option>16</option>
+    						<option>17</option>
+    						<option>18</option>
+    						<option>19</option>
+    						<option>20</option>
+    						<option>21</option>
+    						<option>22</option>
+    						<option>23</option>
+    						<option>24</option>
+    						<option>25</option>
+    						<option>26</option>
+    					</select>
+    				</div>
+    				<div class="col-lg-6 permutation">VZBRGITYUPSDNHLXAWMJQOFFECK</div>
+    				<div class="col-lg-1 permutation"> Z=>A</div>
+    				</div>
+    			</p>
+    		</div>
+
+    		</div>
+
+    	</div>
     </div>
     <script src="js/jquery.min.js" type="text/javascript"></script>
     <script src="enigma/enigma.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+	$(function(){
+
+		//$("#trigger").click(function(){ $("#ciphertext").val($("#plaintext").val()); });
+
+		$("#plaintext").keyup(function(){
+			$("#ciphertext").val($(this).val());
+		});
+
+	});
+
+</script>
+
+
 </body>
 </html>
 
