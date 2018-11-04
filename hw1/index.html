@@ -21,10 +21,11 @@
 		 <input class="form-control" id="plainttext">
 
 		 <h3>Cifer letter</h3>
-		 <input class="form-control" id="cifertext">
+		 <input disabled="" class="form-control" id="cifertext">
 
 		 <h3>Meessage</h3>
 		 <textarea class="form-control" id="message" rows="3"></textarea>
+		 <button class="clear_btn btn btn-primary">Clear</button>
 
 		<!--	<table class="table">
   <thead>
@@ -201,12 +202,13 @@ $(function(){
 	$("#plainttext").keyup(function(){
 
 		let x = $(this).val();
-
-		//$("#cifertext, #plainttext").val("");
 		$("#cifertext, #plainttext").val(x[x.length-1]);
-
 		$("#message").val($("#message").val().concat($("#cifertext").val()));
 		
+	});
+
+	$(".clear_btn").click(function(){
+		$("#cifertext, #plainttext, #message").val("");
 	});
 })
 
