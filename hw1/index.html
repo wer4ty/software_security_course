@@ -15,7 +15,7 @@
 
 <div class="container">
 	<div class="row">
-		<div class="col-lg-12">
+		<div class="col-lg-3">
 
 		<h3>Input letter</h3>
 		 <input class="form-control" id="plainttext">
@@ -27,7 +27,11 @@
 		 <textarea class="form-control" id="message" rows="3"></textarea>
 		 <button class="clear_btn btn btn-primary">Clear</button>
 
-		<!--	<table class="table">
+		 </div>
+
+	<!--	 <div class="col-lg-9">
+
+			<table id="table_dynamic" class="table">
   <thead>
     <tr>
       <th scope="col">#</th>
@@ -82,115 +86,73 @@
 
       
   </tbody>
-</table> -->
+</table> 
 
-		</div>
+		</div> -->
 	</div>
 </div>
 
 <script type="text/javascript">
-  $('tbody').sortable();
-</script>
 
+class Substitutor {
+	constructor() {}
 
-<script type="text/javascript">
-	
-// Plugboard Task 2
-function isLetter(c) {
-	// return whitespace
-	if ((c == ' ') || (c == '\t') || (c == '\n')) return c; 
-
-	// check if letter: true => return upper case letter
-	let x = c.match(/[a-z]/i);
-	if ( x !== null) {
-		return x[0].toUpperCase();
-	}
-	// false return undefined
-  return x;
-}
-
-function plugboard(c) {
-	//let configuration = undefined;
-	let configuration = ["RY", "BU", "AS", "FZ"]; 
-	// empty (undefined), ["RY", "BU", "AS", "FZ"] (max 10)
-	if (configuration !== undefined) {
-		for (let i =0; i<configuration.length; i++) {
-			if (c == configuration[i][0]) { 
-				 return configuration[i][1]; 
-			}
-			if (c == configuration[i][1]) { 
-				 return configuration[i][0]; 
-			} 
+	isLetter(c) {
+		// return whitespace
+		if ((c == ' ') || (c == '\t') || (c == '\n')) return c; 
+		// check if letter: true => return upper case letter
+		let x = c.match(/[a-z]/i);
+		if ( x !== null) {
+			return x[0].toUpperCase();
 		}
+		// false return undefined
+	  return x;
 	}
-	return c;
+
+	indexViaAZ(c) { return "ABCDEFGHIGKLMNOPQRSTUVWXYZ".indexOf(c.toUpperCase()); }
+}	
+
+class Translator extends Substitutor {
+	constructor(az){
+		super();
+		this.az = az;
+	}
+
+	getAZ() { return this.az; }
+	setAz(az) { this.az = az; }
+
+	simple_translate(c) {
+		let ind = this.indexViaAZ(c);
+		if (this.isLetter(c) === undefined) return;
+		else if(ind !== -1 ) return this.az[ind];
+		return c;
+	}
 }
 
-// function indexViaAZ(c) {
-// 	let az = "ABCDEFGHIGKLMNOPQRSTUVWXYZ";
-// 	return az.indexOf(c);
-// }
+class Plugboard extends Translator {
+	constructor(az){
+		super(az);
+	}
+}
 
-// function rotor(prev, offset, setting, notch, order) {
-// 	// prev {c : letter, notch_action : boolean}
-// 	// offset number [1 ~ 26]
-// 	// setting string "ABCDEFGHIGKLMNOPQRSTUVWXYZ" or another permutation
-// 	// notch string "Q" 
-// 	// order flag 1 -> forward, -1 -> reverse
+class Reflector extends Translator {
+	constructor(az){
+		super(az);
+	}
+}
 
-// 	// prepare first time when offset is initial set
-	
-// 	// let roll = offset - 1;
-// 	// let part = setting.substr(0, roll);
-// 	// setting = setting.slice(roll, setting[setting.length]);
-// 	// setting = setting.concat(part);
+class Rotor extends Translator {
+	constructor(az, offset, setting, notch){
+		super(az);
+		this.offset = offset;
+		this.setting = setting;
+		this.notch = notch;
+	}
 
-// 	let action = false, x;
-
-// 	// forward 
-// 	if(order === 1) {
-// 		if(prev["notch_action"]) {
-// 			offset++;
-// 			let first = setting[0];
-// 			setting = setting.slice(1);
-// 			setting = setting.concat(first);
-// 		}
-
-// 		if (offset > setting.length) {
-// 			offset = offset % setting.length;
-// 			if (offset == 0) { offset = 1; }  
-// 		}
-
-// 		// index of letter via alphabet order
-// 		let n = indexViaAZ(prev['c']);
-
-// 		action = false;
-// 		x = setting[n]; // index of array start from 0
-// 		if(setting[offset] == notch) {
-// 			action = true;
-// 		}
-// 	}
-
-// 	// reverse
-// 	if(order === -1) {
-// 		// index of letter via alphabet order
-// 		let n = indexViaAZ(prev['c']);
-
-// 		action = false;
-// 		x = setting[n]; // index of array start from 0
-// 	}
-	
-// 	return {c : x, notch_action : action};
-// }
-
-// function reflector(prev, setting) {
-// 	// c letter
-// 	// settring string permutation
-// 	let n = indexViaAZ(prev['c']);
-// 	return {c : setting[n], notch_action : false};
-// }
-
-// let obj = {};
+	getOffset() { return this.offset; }
+	getSetting() { return this.setting; }
+	getNotch() { return this.notch; }
+}
 
 
 // 	reflector(
@@ -205,7 +167,13 @@ function plugboard(c) {
 // 		)
 
 function encrypt(c) {
-	return plugboard(isLetter(c));
+	let ref = new Reflector("YRUHQSLDPXNGOKMIEBFZCWVJAT");
+	let plu = new Plugboard("SUCDEZGHIJKLMNCPQYATBVWXRF");
+
+
+	let step1 = plu.simple_translate(c);
+	let step2 = ref.simple_translate(step1);
+	return step2;
 }
 
 // Vizualization
