@@ -23,7 +23,7 @@
 		 <h3>Cifer letter</h3>
 		 <input disabled="" class="form-control" id="cifertext">
 
-		 <h3>Meessage</h3>
+		 <h3>Message</h3>
 		 <textarea class="form-control" id="message" rows="3"></textarea>
 		 <button class="clear_btn btn btn-primary">Clear</button>
 
@@ -97,16 +97,21 @@
 	
 // Plugboard Task 2
 function isLetter(c) {
+	// return whitespace
+	if ((c == ' ') || (c == '\t') || (c == '\n')) return c; 
+
+	// check if letter: true => return upper case letter
 	let x = c.match(/[a-z]/i);
 	if ( x !== null) {
 		return x[0].toUpperCase();
 	}
+	// false return undefined
   return x;
 }
 
 function plugboard(c) {
-	let configuration = undefined;
-	//let configuration = ["RY", "BU", "AS", "FZ"]; 
+	//let configuration = undefined;
+	let configuration = ["RY", "BU", "AS", "FZ"]; 
 	// empty (undefined), ["RY", "BU", "AS", "FZ"] (max 10)
 	if (configuration !== undefined) {
 		for (let i =0; i<configuration.length; i++) {
@@ -121,88 +126,95 @@ function plugboard(c) {
 	return c;
 }
 
-function indexViaAZ(c) {
-	let az = "ABCDEFGHIGKLMNOPQRSTUVWXYZ";
-	return az.indexOf(c);
-}
+// function indexViaAZ(c) {
+// 	let az = "ABCDEFGHIGKLMNOPQRSTUVWXYZ";
+// 	return az.indexOf(c);
+// }
 
-function rotor(prev, offset, setting, notch, order) {
-	// prev {c : letter, notch_action : boolean}
-	// offset number [1 ~ 26]
-	// setting string "ABCDEFGHIGKLMNOPQRSTUVWXYZ" or another permutation
-	// notch string "Q" 
-	// order flag 1 -> forward, -1 -> reverse
+// function rotor(prev, offset, setting, notch, order) {
+// 	// prev {c : letter, notch_action : boolean}
+// 	// offset number [1 ~ 26]
+// 	// setting string "ABCDEFGHIGKLMNOPQRSTUVWXYZ" or another permutation
+// 	// notch string "Q" 
+// 	// order flag 1 -> forward, -1 -> reverse
 
-	// prepare first time when offset is initial set
+// 	// prepare first time when offset is initial set
 	
-	// let roll = offset - 1;
-	// let part = setting.substr(0, roll);
-	// setting = setting.slice(roll, setting[setting.length]);
-	// setting = setting.concat(part);
+// 	// let roll = offset - 1;
+// 	// let part = setting.substr(0, roll);
+// 	// setting = setting.slice(roll, setting[setting.length]);
+// 	// setting = setting.concat(part);
 
-	let action = false, x;
+// 	let action = false, x;
 
-	// forward 
-	if(order === 1) {
-		if(prev["notch_action"]) {
-			offset++;
-			let first = setting[0];
-			setting = setting.slice(1);
-			setting = setting.concat(first);
-		}
+// 	// forward 
+// 	if(order === 1) {
+// 		if(prev["notch_action"]) {
+// 			offset++;
+// 			let first = setting[0];
+// 			setting = setting.slice(1);
+// 			setting = setting.concat(first);
+// 		}
 
-		if (offset > setting.length) {
-			offset = offset % setting.length;
-			if (offset == 0) { offset = 1; }  
-		}
+// 		if (offset > setting.length) {
+// 			offset = offset % setting.length;
+// 			if (offset == 0) { offset = 1; }  
+// 		}
 
-		// index of letter via alphabet order
-		let n = indexViaAZ(prev['c']);
+// 		// index of letter via alphabet order
+// 		let n = indexViaAZ(prev['c']);
 
-		action = false;
-		x = setting[n]; // index of array start from 0
-		if(setting[offset] == notch) {
-			action = true;
-		}
-	}
+// 		action = false;
+// 		x = setting[n]; // index of array start from 0
+// 		if(setting[offset] == notch) {
+// 			action = true;
+// 		}
+// 	}
 
-	// reverse
-	if(order === -1) {
-		// index of letter via alphabet order
-		let n = indexViaAZ(prev['c']);
+// 	// reverse
+// 	if(order === -1) {
+// 		// index of letter via alphabet order
+// 		let n = indexViaAZ(prev['c']);
 
-		action = false;
-		x = setting[n]; // index of array start from 0
-	}
+// 		action = false;
+// 		x = setting[n]; // index of array start from 0
+// 	}
 	
-	return {c : x, notch_action : action};
+// 	return {c : x, notch_action : action};
+// }
+
+// function reflector(prev, setting) {
+// 	// c letter
+// 	// settring string permutation
+// 	let n = indexViaAZ(prev['c']);
+// 	return {c : setting[n], notch_action : false};
+// }
+
+// let obj = {};
+
+
+// 	reflector(
+// 		rotor(
+// 			rotor( 
+// 				rotor(
+// 					{c : plugboard(isLetter('a')),  notch_action: true}, 1, "EKMFLGDQVZNTOWYHXUSPAIBRCJ", 'R',1
+// 					),
+// 				1, "AJDKSIRUXBLHWTMCQGZNPYFVOE", 'F',1),
+// 			1, "BDFHJLCPRTXVZNYEIWGAKMUSQO", 'W',1),
+// 		"YRUHQSLDPXNGOKMIEBFZCWVJAT"
+// 		)
+
+function encrypt(c) {
+	return plugboard(isLetter(c));
 }
 
-function reflector(prev, setting) {
-	// c letter
-	// settring string permutation
-	let n = indexViaAZ(prev['c']);
-	return {c : setting[n], notch_action : false};
-}
-
-console.log(
-	reflector(
-		rotor(
-			rotor( 
-				rotor(
-					{c : plugboard(isLetter('a')),  notch_action: true}, 1, "EKMFLGDQVZNTOWYHXUSPAIBRCJ", 'R',1
-					),
-				1, "AJDKSIRUXBLHWTMCQGZNPYFVOE", 'F',1),
-			1, "BDFHJLCPRTXVZNYEIWGAKMUSQO", 'W',1),
-		"YRUHQSLDPXNGOKMIEBFZCWVJAT"
-		)
-	);
-
+// Vizualization
 $(function(){
 	$("#plainttext").keyup(function(){
 
 		let x = $(this).val();
-		$("#cifertext, #plainttext").val(x[x.length-1]);
+		$("#cifertext").val(encrypt(x[x.length-1]));
+		$("#plainttext").val(x[x.length-1]);
 		$("#message").val($("#message").val().concat($("#cifertext").val()));
 		
 	});
