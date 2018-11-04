@@ -11,11 +11,22 @@
 </head>
 <body>
 
+
+
 <div class="container">
 	<div class="row">
 		<div class="col-lg-12">
 
-			<table class="table">
+		<h3>Input letter</h3>
+		 <input class="form-control" id="plainttext">
+
+		 <h3>Cifer letter</h3>
+		 <input class="form-control" id="cifertext">
+
+		 <h3>Meessage</h3>
+		 <textarea class="form-control" id="message" rows="3"></textarea>
+
+		<!--	<table class="table">
   <thead>
     <tr>
       <th scope="col">#</th>
@@ -70,7 +81,7 @@
 
       
   </tbody>
-</table>
+</table> -->
 
 		</div>
 	</div>
@@ -185,6 +196,19 @@ console.log(
 		"YRUHQSLDPXNGOKMIEBFZCWVJAT"
 		)
 	);
+
+$(function(){
+	$("#plainttext").keyup(function(){
+
+		let x = $(this).val();
+
+		//$("#cifertext, #plainttext").val("");
+		$("#cifertext, #plainttext").val(x[x.length-1]);
+
+		$("#message").val($("#message").val().concat($("#cifertext").val()));
+		
+	});
+})
 
 </script>
 
