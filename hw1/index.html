@@ -95,7 +95,9 @@
 <script type="text/javascript">
 
 class Substitutor {
-	constructor() {}
+	constructor() {
+		this.baseAZ = " ABCDEFGHIGKLMNOPQRSTUVWXYZ";
+	}
 
 	isLetter(c) {
 		// return whitespace
@@ -109,7 +111,16 @@ class Substitutor {
 	  return x;
 	}
 
-	indexViaAZ(c) { return " ABCDEFGHIGKLMNOPQRSTUVWXYZ".indexOf(c.toUpperCase()); }
+	indexViaAZ(c) {
+		if (c !== undefined) 
+	 	return this.baseAZ.indexOf(c.toUpperCase()); 
+	}
+
+	circular_shift(ind) {
+		if (ind > 26) { ind = ind - 26;}
+		if(ind < 1) { ind = 26 -  Math.abs(ind); }
+		return ind;
+	}
 }	
 
 class Translator extends Substitutor {
@@ -165,22 +176,23 @@ class Rotor extends Translator {
 		this.incrementOffset();
 		let a_index = this.indexViaAZ(c);
 		let P = a_index + this.offset;
-		if (P > 26) { P = P - 26; }
+		P = this.circular_shift(P);
 		P = P - this.setting;
-		if (P < 1) { P = 26 - P;}
+		P = this.circular_shift(P);
 
 		let tmp_c = this.az.charAt(P);
-
 		let b_index = this.indexViaAZ(tmp_c);
 
+
+
 		P = b_index - this.offset;
-		if (P < 1) { P = 26 - P; }
-		console.log(P);
+
+		P = this.circular_shift(P);
+
 		P = P + this.setting;
+		P = this.circular_shift(P);
 
-		if (P > 26) { P = P - 26; }
-
-		return this.az.charAt(this.az.charAt(P));
+		return this.baseAZ.charAt(P);
 	}
 
 	notch() {
