@@ -163,10 +163,24 @@ class Rotor extends Translator {
 
 	forward_translate(c) {
 		this.incrementOffset();
-		console.log(this.offset);
 		let a_index = this.indexViaAZ(c);
-		let P = a_index + this.offset - this.setting;
-		return this.az.charAt(P);
+		let P = a_index + this.offset;
+		if (P > 26) { P = P - 26; }
+		P = P - this.setting;
+		if (P < 1) { P = 26 - P;}
+
+		let tmp_c = this.az.charAt(P);
+
+		let b_index = this.indexViaAZ(tmp_c);
+
+		P = b_index - this.offset;
+		if (P < 1) { P = 26 - P; }
+		console.log(P);
+		P = P + this.setting;
+
+		if (P > 26) { P = P - 26; }
+
+		return this.az.charAt(this.az.charAt(P));
 	}
 
 	notch() {
@@ -196,19 +210,22 @@ let rotor1 = new Rotor(" EKMFLGDQVZNTOWYHXUSPAIBRCJ", 1, 1, "R");
 let rotor2 = new Rotor(" AJDKSIRUXBLHWTMCQGZNPYFVOE", 1, 1, "F");
 let rotor3 = new Rotor(" BDFHJLCPRTXVZNYEIWGAKMUSQO", 1, 1, "W");
 let rotor4 = new Rotor(" ESOVPZJAYQUIRHXLNFTGKDCMWB", 1, 1, "K");
-let rotor5 = new Rotor(" VZBRGITYUPSDNHLXAWMJQOFECK", 1, 1, "A");
+let rotor5 = new Rotor(" VZBRGITYUPSDNHLXAWMJQOFECK", 25, 5, "A");
 
 function encrypt(c) {
 	
 
 	//let step1 = plu.simple_translate(c);
 	//let step2 = ref.simple_translate(step1);
-	let step3 = rotor1.forward_translate(c);
+	let step3 = rotor5.forward_translate(c);
 	return step3;
 }
 
 // Vizualization
 $(function(){
+
+	$( "#plainttext" ).focus();
+
 	$("#plainttext").keyup(function(){
 
 		let x = $(this).val();
