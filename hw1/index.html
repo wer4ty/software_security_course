@@ -96,7 +96,7 @@
 
 class Substitutor {
 	constructor() {
-		this.baseAZ = " ABCDEFGHIGKLMNOPQRSTUVWXYZ";
+		this.baseAZ = " ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	}
 
 	isLetter(c) {
@@ -158,11 +158,14 @@ class Rotor extends Translator {
 		this.offset = offset;
 		this.setting = setting;
 		this.notchLetter = notch;
+		this.reverseAZ = new Array(26);
+		this.reverseAZ[0] = " ";
 	}
 
 	getOffset() { return this.offset; }
 	getSetting() { return this.setting; }
 	getNotchLetter() { return this.notchLetter; }
+	getReverse() { return this.reverseAZ; }
 
 	setSetting(s) {this.setting = s; }
 	setOffset(off) { this.offset = off; }
@@ -183,17 +186,23 @@ class Rotor extends Translator {
 		let tmp_c = this.az.charAt(P);
 		let b_index = this.indexViaAZ(tmp_c);
 
-
-
 		P = b_index - this.offset;
-
 		P = this.circular_shift(P);
-
 		P = P + this.setting;
 		P = this.circular_shift(P);
-
 		return this.baseAZ.charAt(P);
 	}
+
+	generateReverseAZ() {
+		for (let i = 1; i<this.baseAZ.length; i++) {
+			let a_ind = this.indexViaAZ(this.baseAZ[i]);
+			let a_let = this.az.charAt(a_ind);
+			a_ind = this.indexViaAZ(a_let);
+			this.reverseAZ[a_ind] = this.baseAZ[i];
+		}
+		console.log(this.getReverse());
+		
+ 	}
 
 	notch() {
 		if (this.indexViaAZ(this.notchLetter) === this.offset) {
@@ -229,7 +238,7 @@ function encrypt(c) {
 
 	//let step1 = plu.simple_translate(c);
 	//let step2 = ref.simple_translate(step1);
-	let step3 = rotor5.forward_translate(c);
+	let step3 = rotor1.generateReverseAZ();
 	return step3;
 }
 
