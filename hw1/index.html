@@ -176,7 +176,9 @@ class Rotor extends Translator {
 	}
 
 	forward_translate(c) {
+
 		this.incrementOffset();
+
 		let a_index = this.indexViaAZ(c);
 		let P = a_index + this.offset;
 		P = this.circular_shift(P);
@@ -190,7 +192,7 @@ class Rotor extends Translator {
 		P = this.circular_shift(P);
 		P = P + this.setting;
 		P = this.circular_shift(P);
-		return this.baseAZ.charAt(P);
+		return this.az.charAt(P);
 	}
 
 	generateReverseAZ() {
@@ -200,8 +202,11 @@ class Rotor extends Translator {
 			a_ind = this.indexViaAZ(a_let);
 			this.reverseAZ[a_ind] = this.baseAZ[i];
 		}
-		console.log(this.getReverse());
-		
+ 	}
+
+ 	reverse_translate(c) {
+ 		let a_ind = this.indexViaAZ(c);
+ 		return this.reverseAZ[a_ind];
  	}
 
 	notch() {
@@ -213,32 +218,22 @@ class Rotor extends Translator {
 }
 
 
-// 	reflector(
-// 		rotor(
-// 			rotor( 
-// 				rotor(
-// 					{c : plugboard(isLetter('a')),  notch_action: true}, 1, "EKMFLGDQVZNTOWYHXUSPAIBRCJ", 'R',1
-// 					),
-// 				1, "AJDKSIRUXBLHWTMCQGZNPYFVOE", 'F',1),
-// 			1, "BDFHJLCPRTXVZNYEIWGAKMUSQO", 'W',1),
-// 		"YRUHQSLDPXNGOKMIEBFZCWVJAT"
-// 		)
-
-
 let ref = new Reflector(" YRUHQSLDPXNGOKMIEBFZCWVJAT");
 let plu = new Plugboard(" SUCDEZGHIJKLMNCPQYATBVWXRF");
-let rotor1 = new Rotor(" EKMFLGDQVZNTOWYHXUSPAIBRCJ", 1, 1, "R");
+
+let rotor1 = new Rotor(" EKMFLGDQVZNTOWYHXUSPAIBRCJ", 4, 1, "R");
 let rotor2 = new Rotor(" AJDKSIRUXBLHWTMCQGZNPYFVOE", 1, 1, "F");
 let rotor3 = new Rotor(" BDFHJLCPRTXVZNYEIWGAKMUSQO", 1, 1, "W");
 let rotor4 = new Rotor(" ESOVPZJAYQUIRHXLNFTGKDCMWB", 1, 1, "K");
-let rotor5 = new Rotor(" VZBRGITYUPSDNHLXAWMJQOFECK", 25, 5, "A");
+let rotor5 = new Rotor(" VZBRGITYUPSDNHLXAWMJQOFECK", 26, 5, "A");
 
 function encrypt(c) {
 	
 
 	//let step1 = plu.simple_translate(c);
 	//let step2 = ref.simple_translate(step1);
-	let step3 = rotor1.generateReverseAZ();
+	rotor1.generateReverseAZ();
+	let step3 = rotor1.forward_translate(c);
 	return step3;
 }
 
