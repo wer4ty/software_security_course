@@ -24,7 +24,7 @@
 		 <input disabled="" class="form-control" id="cifertext">
 
 		 <h3>Message</h3>
-		 <textarea class="form-control" id="message" rows="3"></textarea>
+		 <textarea readonly="true" class="form-control" id="message" rows="3"></textarea>
 		 <button class="clear_btn btn btn-primary">Clear</button>
 
 		 </div>
@@ -109,7 +109,7 @@ class Substitutor {
 	  return x;
 	}
 
-	indexViaAZ(c) { return "ABCDEFGHIGKLMNOPQRSTUVWXYZ".indexOf(c.toUpperCase()); }
+	indexViaAZ(c) { return " ABCDEFGHIGKLMNOPQRSTUVWXYZ".indexOf(c.toUpperCase()); }
 }	
 
 class Translator extends Substitutor {
@@ -146,12 +146,35 @@ class Rotor extends Translator {
 		super(az);
 		this.offset = offset;
 		this.setting = setting;
-		this.notch = notch;
+		this.notchLetter = notch;
 	}
 
 	getOffset() { return this.offset; }
 	getSetting() { return this.setting; }
-	getNotch() { return this.notch; }
+	getNotchLetter() { return this.notchLetter; }
+
+	setSetting(s) {this.setting = s; }
+	setOffset(off) { this.offset = off; }
+
+	incrementOffset() {
+		this.offset++;
+		if(this.offset > 26 || this.offset <= 0) { this.offset = 1; }
+	}
+
+	forward_translate(c) {
+		this.incrementOffset();
+		console.log(this.offset);
+		let a_index = this.indexViaAZ(c);
+		let P = a_index + this.offset - this.setting;
+		return this.az.charAt(P);
+	}
+
+	notch() {
+		if (this.indexViaAZ(this.notchLetter) === this.offset) {
+			return true;
+		}
+		return false;
+	}
 }
 
 
@@ -166,14 +189,22 @@ class Rotor extends Translator {
 // 		"YRUHQSLDPXNGOKMIEBFZCWVJAT"
 // 		)
 
+
+let ref = new Reflector(" YRUHQSLDPXNGOKMIEBFZCWVJAT");
+let plu = new Plugboard(" SUCDEZGHIJKLMNCPQYATBVWXRF");
+let rotor1 = new Rotor(" EKMFLGDQVZNTOWYHXUSPAIBRCJ", 1, 1, "R");
+let rotor2 = new Rotor(" AJDKSIRUXBLHWTMCQGZNPYFVOE", 1, 1, "F");
+let rotor3 = new Rotor(" BDFHJLCPRTXVZNYEIWGAKMUSQO", 1, 1, "W");
+let rotor4 = new Rotor(" ESOVPZJAYQUIRHXLNFTGKDCMWB", 1, 1, "K");
+let rotor5 = new Rotor(" VZBRGITYUPSDNHLXAWMJQOFECK", 1, 1, "A");
+
 function encrypt(c) {
-	let ref = new Reflector("YRUHQSLDPXNGOKMIEBFZCWVJAT");
-	let plu = new Plugboard("SUCDEZGHIJKLMNCPQYATBVWXRF");
+	
 
-
-	let step1 = plu.simple_translate(c);
-	let step2 = ref.simple_translate(step1);
-	return step2;
+	//let step1 = plu.simple_translate(c);
+	//let step2 = ref.simple_translate(step1);
+	let step3 = rotor1.forward_translate(c);
+	return step3;
 }
 
 // Vizualization
