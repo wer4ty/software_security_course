@@ -175,9 +175,12 @@ class Rotor extends Translator {
 		if(this.offset > 26 || this.offset < 1) { this.offset = 1; }
 	}
 
-	forward_translate(c) {
+	translate_forward_reverse(c, direction) {
 
-		this.incrementOffset();
+		// only in forward direction 
+		if (direction) {
+			this.incrementOffset();
+		}
 
 		let i1 = 1; // index to run over A-Z array
 		let i2 = 1; // index to run over rotor's array
@@ -188,16 +191,24 @@ class Rotor extends Translator {
 		i1 = i1 - this.setting;	// shift left (via setting)
 		i1 = this.circular_shift(i1);
 
-		let l = this.az.charAt(i1);
-		i1 = this.baseAZ.indexOf(l);
+		// forward direction
+		if (direction) {
+			let l = this.az.charAt(i1);
+			i1 = this.baseAZ.indexOf(l);
+		}
+
+		// reverse direction
+		else {
+			let d = this.reverseAZ.join("");
+			let l = d.charAt(i1);
+			i1 = this.baseAZ.indexOf(l);
+		}
 
 		// rotor AZ shifts
 		i2 = i1 - this.offset; // shift left (via offset)
 		i2 = this.circular_shift(i2);
 		i2 = i2 + this.setting;	// shift right (via setting)
 		i2 = this.circular_shift(i2); 
-
-		console.log(i2);
 
 		return this.baseAZ.charAt(i2);
 	}
@@ -211,10 +222,6 @@ class Rotor extends Translator {
 		}
  	}
 
- 	reverse_translate(c) {
- 		let a_ind = this.indexViaAZ(c);
- 		return this.reverseAZ[a_ind];
- 	}
 
 	notch() {
 		if (this.indexViaAZ(this.notchLetter) === this.offset) {
@@ -232,16 +239,17 @@ let rotor1 = new Rotor(" EKMFLGDQVZNTOWYHXUSPAIBRCJ", 1, 22, "R");
 let rotor2 = new Rotor(" AJDKSIRUXBLHWTMCQGZNPYFVOE", 1, 1, "F");
 let rotor3 = new Rotor(" BDFHJLCPRTXVZNYEIWGAKMUSQO", 1, 1, "W");
 let rotor4 = new Rotor(" ESOVPZJAYQUIRHXLNFTGKDCMWB", 1, 1, "K");
-let rotor5 = new Rotor(" VZBRGITYUPSDNHLXAWMJQOFECK", 5, 25, "A");
+let rotor5 = new Rotor(" VZBRGITYUPSDNHLXAWMJQOFECK", 5, 26, "A");
 
 function encrypt(c) {
 	
 
 	//let step1 = plu.simple_translate(c);
 	//let step2 = ref.simple_translate(step1);
-	//rotor5.generateReverseAZ();
-	let step3 = rotor1.forward_translate(c);
-	return step3;
+	rotor5.generateReverseAZ();
+	//let step3 = rotor5.forward_translate(c);
+	let step4 = rotor5.translate_forward_reverse(c, false);
+	return step4;
 }
 
 // Vizualization
