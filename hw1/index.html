@@ -118,7 +118,7 @@ class Substitutor {
 
 	circular_shift(ind) {
 		if (ind > 26) { ind = ind - 26;}
-		if(ind < 1) { ind = 26 -  Math.abs(ind); }
+		if(ind < 1) { ind = 26 - Math.abs(ind); }
 		return ind;
 	}
 }	
@@ -188,14 +188,18 @@ class Rotor extends Translator {
 		i1 = i1 - this.setting;	// shift left (via setting)
 		i1 = this.circular_shift(i1);
 
+		let l = this.az.charAt(i1);
+		i1 = this.baseAZ.indexOf(l);
+
 		// rotor AZ shifts
 		i2 = i1 - this.offset; // shift left (via offset)
 		i2 = this.circular_shift(i2);
 		i2 = i2 + this.setting;	// shift right (via setting)
 		i2 = this.circular_shift(i2); 
 
+		console.log(i2);
 
-		return this.az.charAt(i2);
+		return this.baseAZ.charAt(i2);
 	}
 
 	generateReverseAZ() {
