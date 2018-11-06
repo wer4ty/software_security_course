@@ -153,7 +153,7 @@ class Reflector extends Translator {
 }
 
 class Rotor extends Translator {
-	constructor(az, offset, setting, notch){
+	constructor(az, setting, offset, notch){
 		super(az);
 		this.offset = offset;
 		this.setting = setting;
@@ -172,27 +172,30 @@ class Rotor extends Translator {
 
 	incrementOffset() {
 		this.offset++;
-		if(this.offset > 26 || this.offset <= 0) { this.offset = 1; }
+		if(this.offset > 26 || this.offset < 1) { this.offset = 1; }
 	}
 
 	forward_translate(c) {
 
 		this.incrementOffset();
 
-		let a_index = this.indexViaAZ(c);
-		let P = a_index + this.offset;
-		P = this.circular_shift(P);
-		P = P - this.setting;
-		P = this.circular_shift(P);
+		let i1 = 1; // index to run over A-Z array
+		let i2 = 1; // index to run over rotor's array
+		
+		// base AZ shifts
+		i1 = this.indexViaAZ(c) + this.offset; // shift right (via offset)
+		i1 = this.circular_shift(i1);
+		i1 = i1 - this.setting;	// shift left (via setting)
+		i1 = this.circular_shift(i1);
 
-		let tmp_c = this.az.charAt(P);
-		let b_index = this.indexViaAZ(tmp_c);
+		// rotor AZ shifts
+		i2 = i1 - this.offset; // shift left (via offset)
+		i2 = this.circular_shift(i2);
+		i2 = i2 + this.setting;	// shift right (via setting)
+		i2 = this.circular_shift(i2); 
 
-		P = b_index - this.offset;
-		P = this.circular_shift(P);
-		P = P + this.setting;
-		P = this.circular_shift(P);
-		return this.az.charAt(P);
+
+		return this.az.charAt(i2);
 	}
 
 	generateReverseAZ() {
@@ -221,18 +224,18 @@ class Rotor extends Translator {
 let ref = new Reflector(" YRUHQSLDPXNGOKMIEBFZCWVJAT");
 let plu = new Plugboard(" SUCDEZGHIJKLMNCPQYATBVWXRF");
 
-let rotor1 = new Rotor(" EKMFLGDQVZNTOWYHXUSPAIBRCJ", 4, 1, "R");
+let rotor1 = new Rotor(" EKMFLGDQVZNTOWYHXUSPAIBRCJ", 1, 22, "R");
 let rotor2 = new Rotor(" AJDKSIRUXBLHWTMCQGZNPYFVOE", 1, 1, "F");
 let rotor3 = new Rotor(" BDFHJLCPRTXVZNYEIWGAKMUSQO", 1, 1, "W");
 let rotor4 = new Rotor(" ESOVPZJAYQUIRHXLNFTGKDCMWB", 1, 1, "K");
-let rotor5 = new Rotor(" VZBRGITYUPSDNHLXAWMJQOFECK", 26, 5, "A");
+let rotor5 = new Rotor(" VZBRGITYUPSDNHLXAWMJQOFECK", 5, 25, "A");
 
 function encrypt(c) {
 	
 
 	//let step1 = plu.simple_translate(c);
 	//let step2 = ref.simple_translate(step1);
-	rotor1.generateReverseAZ();
+	//rotor5.generateReverseAZ();
 	let step3 = rotor1.forward_translate(c);
 	return step3;
 }
