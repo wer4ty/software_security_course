@@ -144,6 +144,15 @@ class Plugboard extends Translator {
 	constructor(az){
 		super(az);
 	}
+
+	translate(c) {
+		if (this.az === undefined) { return c; }
+		let tmp = this.az.split(" ");
+		for (let i=0; i<tmp; i++) {
+			if (tmp[i][0] === c.toUpperCase()) { return tmp[i][1]; }
+			if (tmp[i][1] === c.toUpperCase()) { return tmp[i][0]; }
+		}
+	}
 }
 
 class Reflector extends Translator {
@@ -176,11 +185,6 @@ class Rotor extends Translator {
 	}
 
 	translate_forward_reverse(c, direction) {
-
-		// only in forward direction 
-		if (direction) {
-			this.incrementOffset();
-		}
 
 		let i1 = 1; // index to run over A-Z array
 		let i2 = 1; // index to run over rotor's array
@@ -231,28 +235,67 @@ class Rotor extends Translator {
 	}
 }
 
+class Enigma extends Substitutor {
+	constructor(reflector, plugboard, leftRotor, middleRotor, rightRotor) {
+	 super(); 
+	 this.reflector = reflector;
+	 this.plugboard = plugboard;
+	 this.leftRotor = leftRotor;
+	 this.middleRotor = middleRotor;
+	 this.rightRotor = rightRotor;
+	}
 
-let ref = new Reflector(" YRUHQSLDPXNGOKMIEBFZCWVJAT");
-let plu = new Plugboard(" SUCDEZGHIJKLMNCPQYATBVWXRF");
+	notchingCheck() {
+	if (this.rightRotor.notch() || this.middleRotor.notch()) {
+			if(this.middleRotor.notch()) {
+				this.leftRotor.incrementOffset();
+			}
+			this.middleRotor.incrementOffset();
+		}
+		this.rightRotor.incrementOffset();
+	}
 
-let rotor1 = new Rotor(" EKMFLGDQVZNTOWYHXUSPAIBRCJ", 1, 22, "R");
-let rotor2 = new Rotor(" AJDKSIRUXBLHWTMCQGZNPYFVOE", 1, 1, "F");
-let rotor3 = new Rotor(" BDFHJLCPRTXVZNYEIWGAKMUSQO", 1, 1, "W");
-let rotor4 = new Rotor(" ESOVPZJAYQUIRHXLNFTGKDCMWB", 1, 1, "K");
-let rotor5 = new Rotor(" VZBRGITYUPSDNHLXAWMJQOFECK", 5, 26, "A");
+	 encrypt(c) {
+		
 
-function encrypt(c) {
-	
+		let step1 = this.plugboard.translate(c);
 
-	//let step1 = plu.simple_translate(c);
-	//let step2 = ref.simple_translate(step1);
-	rotor5.generateReverseAZ();
-	//let step3 = rotor5.forward_translate(c);
-	let step4 = rotor5.translate_forward_reverse(c, false);
-	return step4;
+		this.notchingCheck();
+
+		this.rightRotor.generateReverseAZ();
+		this.middleRotor.generateReverseAZ();
+		this.leftRotor.generateReverseAZ();
+
+		let step2 = this.rightRotor.translate_forward_reverse(step1, true);
+		let step3 = this.middleRotor.translate_forward_reverse(step2, true);
+		let step4 = this.leftRotor.translate_forward_reverse(step3, true);
+
+		let step5 = this.reflector.simple_translate(step4);
+
+		let step6 = this.leftRotor.translate_forward_reverse(step5, false);
+		let step7 = this.middleRotor.translate_forward_reverse(step6, false);
+		let step8 = this.rightRotor.translate_forward_reverse(step7, false);
+
+		let step9 = this.plugboard.translate(step8);
+		return step9;
+	}
 }
 
-// Vizualization
+// Testing
+let ref = new Reflector(" YRUHQSLDPXNGOKMIEBFZCWVJAT"); // Type B
+//let plu = new Plugboard(" SUCDEZGHIJKLMNCPQYATBVWXRF");
+let plu = new Plugboard(undefined);
+
+let rotor1 = new Rotor(" EKMFLGDQVZNTOWYHXUSPAIBRCJ", 1, 6, "R");
+let rotor2 = new Rotor(" AJDKSIRUXBLHWTMCQGZNPYFVOE", 1, 4, "F");
+let rotor3 = new Rotor(" BDFHJLCPRTXVZNYEIWGAKMUSQO", 1, 22, "W");
+let rotor4 = new Rotor(" ESOVPZJAYQUIRHXLNFTGKDCMWB", 1, 1, "K");
+let rotor5 = new Rotor(" VZBRGITYUPSDNHLXAWMJQOFECK", 5, 25, "A");
+
+// reflector, plugboard, leftRotor, middleRotor, rightRotor
+let test_machine = new Enigma(ref, plu, rotor3, rotor2, rotor1);
+
+// primitive gui
 $(function(){
 
 	$( "#plainttext" ).focus();
@@ -260,7 +303,7 @@ $(function(){
 	$("#plainttext").keyup(function(){
 
 		let x = $(this).val();
-		$("#cifertext").val(encrypt(x[x.length-1]));
+		$("#cifertext").val(test_machine.encrypt(x[x.length-1]));
 		$("#plainttext").val(x[x.length-1]);
 		$("#message").val($("#message").val().concat($("#cifertext").val()));
 		
