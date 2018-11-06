@@ -286,14 +286,14 @@ let ref = new Reflector(" YRUHQSLDPXNGOKMIEBFZCWVJAT"); // Type B
 //let plu = new Plugboard(" SUCDEZGHIJKLMNCPQYATBVWXRF");
 let plu = new Plugboard(undefined);
 
-let rotor1 = new Rotor(" EKMFLGDQVZNTOWYHXUSPAIBRCJ", 1, 6, "R");
-let rotor2 = new Rotor(" AJDKSIRUXBLHWTMCQGZNPYFVOE", 1, 4, "F");
-let rotor3 = new Rotor(" BDFHJLCPRTXVZNYEIWGAKMUSQO", 1, 22, "W");
-let rotor4 = new Rotor(" ESOVPZJAYQUIRHXLNFTGKDCMWB", 1, 1, "K");
-let rotor5 = new Rotor(" VZBRGITYUPSDNHLXAWMJQOFECK", 5, 25, "A");
+let rotor1 = new Rotor(" EKMFLGDQVZNTOWYHXUSPAIBRCJ", 1, 17, "Q");
+let rotor2 = new Rotor(" AJDKSIRUXBLHWTMCQGZNPYFVOE", 1, 5, "E");
+let rotor3 = new Rotor(" BDFHJLCPRTXVZNYEIWGAKMUSQO", 1, 22, "V");
+let rotor4 = new Rotor(" ESOVPZJAYQUIRHXLNFTGKDCMWB", 1, 1, "J");
+let rotor5 = new Rotor(" VZBRGITYUPSDNHLXAWMJQOFECK", 5, 25, "Z");
 
 // reflector, plugboard, leftRotor, middleRotor, rightRotor
-let test_machine = new Enigma(ref, plu, rotor3, rotor2, rotor1);
+let test_machine = new Enigma(ref, plu, rotor1, rotor2, rotor3);
 
 // primitive gui
 $(function(){
