@@ -601,6 +601,7 @@ let rotor5 = new Rotor(" VZBRGITYUPSDNHLXAWMJQOFECK", 1, 1, "Z");
 let test_machine = new Enigma(ref, plu, rotor1, rotor2, rotor3);
 
 function default_conf() {
+	$("tr").removeClass("highlight");
 	plu.setAZ(undefined); // empty
 
 	rotor1.setOffset(1); $(".r_off1").val("1");
@@ -618,9 +619,9 @@ function default_conf() {
 	rotor5.setOffset(1);	$(".r_off5").val("1");
 	rotor5.setSetting(1);	$(".r_set5").val("1");
 
-	test_machine.setLeftRotor(rotor1);	$(".r_pos1").val("1");
-	test_machine.setMiddleRotor(rotor2); $(".r_pos2").val("2");
-	test_machine.setRightRotor(rotor3);	$(".r_pos3").val("3");
+	test_machine.setLeftRotor(rotor1);	$(".r_pos1").val("1");  $("#r1").addClass("highlight");
+	test_machine.setMiddleRotor(rotor2); $(".r_pos2").val("2"); $("#r2").addClass("highlight");
+	test_machine.setRightRotor(rotor3);	$(".r_pos3").val("3");  $("#r3").addClass("highlight");
 
 	$(".r_pos4").val("0");
 	$(".r_pos5").val("0");
@@ -685,6 +686,7 @@ function update_offset() {
 // primitive gui
 $(function(){
 
+	default_conf();
 	$( "#plainttext" ).focus();
 
 	$("#plainttext").keyup(function(){
@@ -711,6 +713,11 @@ $(function(){
 	// reset enigma settings
 	$("#reset_m").click(function() {
 		default_conf();
+	});
+
+	// save new settings
+	$("#save_m").click(function(){
+		new_conf();
 	});
 
 
