@@ -389,8 +389,8 @@
   </tbody>
 </table> 
 
-	<button class="btn btn-warning" id="reset_m">Reset</button>
-	<button class="btn btn-primary" id="save_m">Save</button>
+	<button class="btn btn-warning" id="reset_m">Default (Reset)</button>
+	<button class="btn btn-primary" id="save_m">Save</button> <small> (for reset button no need to press Save)</small>
 
 
 		</div> 
@@ -433,7 +433,7 @@ class Translator extends Substitutor {
 	}
 
 	getAZ() { return this.az; }
-	setAz(az) { this.az = az; }
+	setAZ(az) { this.az = az; }
 
 	simple_translate(c) {
 		let ind = this.indexViaAZ(c);
@@ -548,6 +548,10 @@ class Enigma extends Substitutor {
 	 this.rightRotor = rightRotor;
 	}
 
+	setLeftRotor(rotor) { this.leftRotor = rotor; }
+	setMiddleRotor(rotor) { this.middleRotor = rotor; }
+	setRightRotor(rotor) { this.rightRotor = rotor; }
+
 	notchingCheck() {
 	if (this.rightRotor.notch() || this.middleRotor.notch()) {
 			if(this.middleRotor.notch()) {
@@ -559,7 +563,6 @@ class Enigma extends Substitutor {
 	}
 
 	 encrypt(c) {
-		
 
 		let step1 = this.plugboard.translate(c);
 
@@ -585,17 +588,45 @@ class Enigma extends Substitutor {
 }
 
 // Testing
-let ref = new Reflector(" YRUHQSLDPXNGOKMIEBFZCWVJAT"); // Type B
 let plu = new Plugboard(undefined); // empty
+let ref = new Reflector(" YRUHQSLDPXNGOKMIEBFZCWVJAT"); 
 
-let rotor1 = new Rotor(" EKMFLGDQVZNTOWYHXUSPAIBRCJ", 1, 17, "Q");
-let rotor2 = new Rotor(" AJDKSIRUXBLHWTMCQGZNPYFVOE", 1, 5, "E");
-let rotor3 = new Rotor(" BDFHJLCPRTXVZNYEIWGAKMUSQO", 1, 22, "V");
+let rotor1 = new Rotor(" EKMFLGDQVZNTOWYHXUSPAIBRCJ", 1, 1, "Q");
+let rotor2 = new Rotor(" AJDKSIRUXBLHWTMCQGZNPYFVOE", 1, 1, "E");
+let rotor3 = new Rotor(" BDFHJLCPRTXVZNYEIWGAKMUSQO", 1, 1, "V");
 let rotor4 = new Rotor(" ESOVPZJAYQUIRHXLNFTGKDCMWB", 1, 1, "J");
-let rotor5 = new Rotor(" VZBRGITYUPSDNHLXAWMJQOFECK", 5, 25, "Z");
+let rotor5 = new Rotor(" VZBRGITYUPSDNHLXAWMJQOFECK", 1, 1, "Z");
 
 // reflector, plugboard, leftRotor, middleRotor, rightRotor
 let test_machine = new Enigma(ref, plu, rotor1, rotor2, rotor3);
+
+function default_conf() {
+	plu.setAZ(undefined); // empty
+
+	rotor1.setOffset(1); $(".r_off1").val("1");
+	rotor1.setSetting(1); $(".r_set1").val("1");
+
+	rotor2.setOffset(1); $(".r_off2").val("1");
+	rotor2.setSetting(1); $(".r_set2").val("1");
+
+	rotor3.setOffset(1);	$(".r_off3").val("1");
+	rotor3.setSetting(1);   $(".r_set3").val("1");
+
+	rotor4.setOffset(1); 	$(".r_off4").val("1");
+	rotor4.setSetting(1);	$(".r_set4").val("1");
+
+	rotor5.setOffset(1);	$(".r_off5").val("1");
+	rotor5.setSetting(1);	$(".r_set5").val("1");
+
+	test_machine.setLeftRotor(rotor1);	$(".r_pos1").val("1");
+	test_machine.setMiddleRotor(rotor2); $(".r_pos2").val("2");
+	test_machine.setRightRotor(rotor3);	$(".r_pos3").val("3");
+
+	$(".r_pos4").val("0");
+	$(".r_pos5").val("0");
+
+
+}
 
 
 // primitive gui
@@ -625,7 +656,7 @@ $(function(){
 
 	// reset enigma settings
 	$("#reset_m").click(function() {
-
+		default_conf();
 	});
 
 
