@@ -54,7 +54,7 @@
   <tbody id="putRotors">
   		<tr id="r1">
   			<td>I</td>
-      <td><select class="form-control r_pos1"><option value="0">None</option>
+      <td><select class="form-control r_pos1 locking" id="1"><option value="0">None</option>
       <option value="1">Left</option>
       <option value="2">Middle</option>
       <option value="3">Right</option>
@@ -121,7 +121,7 @@
 
   		<tr id="r2">
   			<td>II</td>
-      <td><select class="form-control r_pos2"><option value="0">None</option>
+      <td><select class="form-control r_pos2 locking" id="2"><option value="0">None</option>
       <option value="1">Left</option>
       <option value="2">Middle</option>
       <option value="3">Right</option>
@@ -188,7 +188,7 @@
 
   		<tr id="r3">
   			<td>III</td>
-      <td><select class="form-control r_pos3"><option value="0">None</option>
+      <td><select class="form-control r_pos3 locking" id="3"><option value="0">None</option>
       <option value="1">Left</option>
       <option value="2">Middle</option>
       <option value="3">Right</option>
@@ -255,7 +255,7 @@
 
   		<tr id="r4">
   			<td>IV</td>
-      <td><select class="form-control r_pos4"><option value="0">None</option>
+      <td><select class="form-control r_pos4 locking" id="4"><option value="0">None</option>
       <option value="1">Left</option>
       <option value="2">Middle</option>
       <option value="3">Right</option>
@@ -322,7 +322,7 @@
 
   		<tr id="r5">
   			<td>V</td>
-      <td><select class="form-control r_pos5"><option value="0">None</option>
+      <td><select class="form-control r_pos5 locking" id="5"><option value="0">None</option>
       <option value="1">Left</option>
       <option value="2">Middle</option>
       <option value="3">Right</option>
@@ -390,7 +390,7 @@
 </table> 
 
 	<button class="btn btn-warning" id="reset_m">Default (Reset)</button>
-	<button class="btn btn-primary" id="save_m">Save</button> <small> (for reset button no need to press Save)</small>
+	<button class="btn btn-primary" id="save_m">Save</button> <small> (for reset button no need to press Save)</small> <span class="saved_action">SAVED</span>
 
 
 		</div> 
@@ -631,6 +631,7 @@ function default_conf() {
 
 
 function new_conf() {
+	$("tr").removeClass("highlight");
 	plu.setAZ($("#plugboard_setup").val());
 
 	rotor1.setOffset(parseInt($(".r_off1").val()));
@@ -649,20 +650,20 @@ function new_conf() {
 	rotor5.setSetting(parseInt($(".r_set5").val()));
 
 	function position_determine(v, rIndex) {
-		let tmp_rotor;
+		let tmp_rotor, tmp;
 
 		switch(rIndex) {
-			case '1': tmp_rotor = rotor1; break;
-			case '2': tmp_rotor = rotor2; break;
-			case '3': tmp_rotor = rotor3; break;
-			case '4': tmp_rotor = rotor4; break;
-			case '5': tmp_rotor = rotor5; break;
+			case '1': tmp_rotor = rotor1; tmp = 1; break;
+			case '2': tmp_rotor = rotor2; tmp = 2; break;
+			case '3': tmp_rotor = rotor3; tmp = 3; break;
+			case '4': tmp_rotor = rotor4; tmp = 4; break;
+			case '5': tmp_rotor = rotor5; tmp = 5; break;
 		}
 
 		switch (v) {
-			case '1': test_machine.setLeftRotor(tmp_rotor); break;
-			case '2': test_machine.setMiddleRotor(tmp_rotor); break;
-			case '3': test_machine.setRightRotor(tmp_rotor); break;
+			case '1': test_machine.setLeftRotor(tmp_rotor); $("#r"+tmp).addClass("highlight"); break;
+			case '2': test_machine.setMiddleRotor(tmp_rotor); $("#r"+tmp).addClass("highlight"); break;
+			case '3': test_machine.setRightRotor(tmp_rotor); $("#r"+tmp).addClass("highlight"); break;
 			default: break;
 		}
 	}
@@ -718,8 +719,19 @@ $(function(){
 	// save new settings
 	$("#save_m").click(function(){
 		new_conf();
+		$(".saved_action").fadeIn().delay(1000).fadeOut();
 	});
 
+	// lock the values 
+	$(".locking").change(function(){
+		let t = $(this).val();
+		let id = $(this).attr('id');
+		$(".locking").each(function() {
+			if( $(this).val() === t && $(this).attr('id') !== id ) {
+				$(this).val("0");
+			}
+		});
+	});
 
 });
 
