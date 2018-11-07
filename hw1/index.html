@@ -687,6 +687,17 @@ function update_offset() {
 	$(".r_off5").val(rotor5.getOffset());
 }
 
+function letterCheck() {
+	if (event.keyCode >= 48 && event.keyCode <= 57) {
+	    return false;
+	} else if (event.keyCode >= 65 && event.keyCode <= 90) {
+	    return true;
+	} else if (event.keyCode >= 97 && event.keyCode <= 122) {
+	    return true;
+	}
+	return false;
+}
+
 // primitive gui
 $(function(){
 
@@ -698,15 +709,18 @@ $(function(){
 		
 		//whitespace
 		if ((x == ' ') || (x == '\t') || (x == '\n')) { 
-			$("#message").val(x); return;
+			$("#message").val($("#message").val().concat(x));
+			$("#plainttext").val(x[x.length-1]);
 		}
 
-		// encryption
-		$("#cifertext").val(test_machine.encrypt(x[x.length-1]));
-		$("#plainttext").val(x[x.length-1]);
-		$("#message").val($("#message").val().concat($("#cifertext").val()));
-		update_offset();
-		
+		if (letterCheck(x)) {
+			// encryption
+			$("#cifertext").val(test_machine.encrypt(x[x.length-1]));
+			$("#plainttext").val(x[x.length-1]);
+			$("#message").val($("#message").val().concat($("#cifertext").val()));
+			update_offset();
+		}
+
 	});
 
 	// clear input 
