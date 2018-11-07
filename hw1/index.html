@@ -451,10 +451,13 @@ class Plugboard extends Translator {
 	translate(c) {
 		if (this.az === undefined || this.az === "" ) { return c; }
 		let tmp = this.az.split(" ");
-		for (let i=0; i<tmp; i++) {
-			if (tmp[i][0] === c.toUpperCase()) { return tmp[i][1]; }
-			if (tmp[i][1] === c.toUpperCase()) { return tmp[i][0]; }
+
+		for (let i=0; i<tmp.length; i++) {
+			let t = tmp[i].split("");
+			if (t[0].toUpperCase() === c.toUpperCase()) { return t[1].toUpperCase(); }
+			if (t[1].toUpperCase() === c.toUpperCase()) { return t[0].toUpperCase(); }
 		}
+		return c.toUpperCase();
 	}
 }
 
@@ -728,9 +731,10 @@ $(function(){
 		let id = $(this).attr('id');
 		$(".locking").each(function() {
 			if( $(this).val() === t && $(this).attr('id') !== id ) {
-				$(this).val("0");
+				$(this).val("0"); $(this).parent().parent().removeClass("highlight");
 			}
 		});
+		$(this).parent().parent().addClass("highlight");
 	});
 
 });
