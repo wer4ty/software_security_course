@@ -1,7 +1,5 @@
 // HW1 Software Security 338057227 Roma Chychkovych
 
-let time = 0.0;
-
 class Substitutor {
 	constructor() {
 		this.baseAZ = " ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -169,8 +167,11 @@ class Enigma extends Substitutor {
 	}
 
 	 encrypt(c) {
+	 	console.time('encrypt');
 
+	 	console.time('plugboard_translate');
 		let step1 = this.plugboard.translate(c);
+		console.timeEnd('plugboard_translate');
 
 		this.notchingCheck();
 
@@ -189,6 +190,8 @@ class Enigma extends Substitutor {
 		let step8 = this.rightRotor.translate_forward_reverse(step7, false);
 
 		let step9 = this.plugboard.translate(step8);
+
+		console.timeEnd('encrypt');
 		return step9;
 	}
 }
