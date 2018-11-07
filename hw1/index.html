@@ -29,7 +29,7 @@
 
 		 </div>
 
-<div class="col-lg-9">
+<div class="col-lg-9" style="border-left: 1px solid #ddd;">
 
 <table class="table">
   <tbody id="putOther">
@@ -449,7 +449,7 @@ class Plugboard extends Translator {
 	}
 
 	translate(c) {
-		if (this.az === undefined) { return c; }
+		if (this.az === undefined || this.az === "" ) { return c; }
 		let tmp = this.az.split(" ");
 		for (let i=0; i<tmp; i++) {
 			if (tmp[i][0] === c.toUpperCase()) { return tmp[i][1]; }
@@ -629,6 +629,59 @@ function default_conf() {
 }
 
 
+function new_conf() {
+	plu.setAZ($("#plugboard_setup").val());
+
+	rotor1.setOffset(parseInt($(".r_off1").val()));
+	rotor1.setSetting(parseInt($(".r_set1").val()));
+
+	rotor2.setOffset(parseInt($(".r_off2").val()));
+	rotor2.setSetting(parseInt($(".r_set2").val()));
+
+	rotor3.setOffset(parseInt($(".r_off3").val()));
+	rotor3.setSetting(parseInt($(".r_set3").val()));
+
+	rotor4.setOffset(parseInt($(".r_off4").val()));
+	rotor4.setSetting(parseInt($(".r_set4").val()));
+
+	rotor5.setOffset(parseInt($(".r_off5").val()));
+	rotor5.setSetting(parseInt($(".r_set5").val()));
+
+	function position_determine(v, rIndex) {
+		let tmp_rotor;
+
+		switch(rIndex) {
+			case '1': tmp_rotor = rotor1; break;
+			case '2': tmp_rotor = rotor2; break;
+			case '3': tmp_rotor = rotor3; break;
+			case '4': tmp_rotor = rotor4; break;
+			case '5': tmp_rotor = rotor5; break;
+		}
+
+		switch (v) {
+			case '1': test_machine.setLeftRotor(tmp_rotor); break;
+			case '2': test_machine.setMiddleRotor(tmp_rotor); break;
+			case '3': test_machine.setRightRotor(tmp_rotor); break;
+			default: break;
+		}
+	}
+
+	position_determine($(".r_pos1").val(), '1'); 
+	position_determine($(".r_pos2").val(), '2'); 
+	position_determine($(".r_pos3").val(), '3'); 
+	position_determine($(".r_pos4").val(), '4'); 
+	position_determine($(".r_pos5").val(), '5'); 
+
+}
+
+function update_offset() {
+	$(".r_off1").val(rotor1.getOffset());
+	$(".r_off2").val(rotor2.getOffset());
+	$(".r_off3").val(rotor3.getOffset());
+	$(".r_off4").val(rotor4.getOffset());
+	$(".r_off5").val(rotor5.getOffset());
+}
+
 // primitive gui
 $(function(){
 
@@ -646,6 +699,7 @@ $(function(){
 		$("#cifertext").val(test_machine.encrypt(x[x.length-1]));
 		$("#plainttext").val(x[x.length-1]);
 		$("#message").val($("#message").val().concat($("#cifertext").val()));
+		update_offset();
 		
 	});
 
