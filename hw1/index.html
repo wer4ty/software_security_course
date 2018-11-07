@@ -12,83 +12,388 @@
 <body>
 
 
-
 <div class="container">
 	<div class="row">
-		<div class="col-lg-3">
 
-		<h3>Input letter</h3>
+		<div class="col-lg-3">
+		<div class="marg"></div>
+		<b>Input letter</b>
 		 <input class="form-control" id="plainttext">
 
-		 <h3>Cifer letter</h3>
+		 <b>Cifer letter</b>
 		 <input disabled="" class="form-control" id="cifertext">
 
-		 <h3>Message</h3>
+		 <b>Message</b>
 		 <textarea readonly="true" class="form-control" id="message" rows="3"></textarea>
 		 <button class="clear_btn btn btn-primary">Clear</button>
 
 		 </div>
 
-	<!--	 <div class="col-lg-9">
+<div class="col-lg-9">
 
-			<table id="table_dynamic" class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Use</th>
-      <th scope="col">Ring Setting</th>
-      <th scope="col">ABCDEFGHIJKLMNOPQRSTUVWXYZ</th>
-      <th scope="col">Turnover notch</th>
-      
-    </tr>
-  </thead>
-  <tbody>
-    <tr id="r1" class="highlight">
-      <th scope="row">I</th>
-      <td><input type="checkbox" class="ch_box" checked="true"></td>
-      <td><span class="offset_enigma">1</span>
-      <button class="left_off btn btn-primary"><</button> <button class="right_off btn btn-primary">></button></td>
-      <td><b>E</b>KMFLGDQVZNTOWYHXUSPAIBRCJ</td>
-      <td>Q -> R</td>
-    </tr>
-    <tr id="r2" class="highlight">
-      <th scope="row">II</th>
-      <td><input type="checkbox" class="ch_box" checked="true"></td>
-      <td><span class="offset_enigma">1</span>
-      <button class="left_off btn btn-primary"><</button> <button class="right_off btn btn-primary">></button></td>
-      <td><b>A</b>JDKSIRUXBLHWTMCQGZNPYFVOE</td>
-      <td>E -> F</td>
-    </tr>
-    <tr id="r3" class="highlight">
-      <th scope="row">III</th>
-      <td><input type="checkbox" class="ch_box" checked="true"></td>
-      <td><span class="offset_enigma">1</span>
-      <button class="left_off btn btn-primary"><</button> <button class="right_off btn btn-primary">></button></td>
-      <td><b>B</b>DFHJLCPRTXVZNYEIWGAKMUSQO</td>
-      <td>V -> W</td>
-    </tr>
-    <tr id="r4">
-      <th scope="row">IV</th>
-      <td><input type="checkbox" class="ch_box"></td>
-      <td><span class="offset_enigma">1</span>
-      <button class="left_off btn btn-primary"><</button> <button class="right_off btn btn-primary">></button></td>
-      <td><b>E</b>SOVPZJAYQUIRHXLNFTGKDCMWB</td>
-      <td>J -> K</td>
-    </tr>
-    <tr id="r5">
-      <th scope="row">V</th>
-      <td><input type="checkbox" class="ch_box"></td>
-      <td><span class="offset_enigma">1</span>
-      <button class="left_off btn btn-primary"><</button> <button class="right_off btn btn-primary">></button></td>
-      <td><b>V</b>ZBRGITYUPSDNHLXAWMJQOFECK</td>
-      <td>Z -> A</td>
-    </tr>
-
-      
+<table class="table">
+  <tbody id="putOther">
+  	<tr>
+  		<td><b>Reflector:</b> <select class="form-control"><option>B</option></select></td>
+  		<td><b>Plugboard:</b> <input type="text" class="form-control" id="plugboard_setup" placeholder=""> <small>values: undefined or (AT CE ...)</small></td>
+  	</tr>
   </tbody>
 </table> 
 
-		</div> -->
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Rotor</th>
+      <th scope="col">Position</th>
+      <th scope="col">Ring Setting</th>
+      <th scope="col">Ring Offset</th>
+      <th scope="col">ABCDEFGHIJKLMNOPQRSTUVWXYZ</th>
+      <th scope="col">Turnover notch</th>
+    </tr>
+  </thead>
+  <tbody id="putRotors">
+  		<tr id="r1">
+  			<td>I</td>
+      <td><select class="form-control r_pos1"><option value="0">None</option>
+      <option value="1">Left</option>
+      <option value="2">Middle</option>
+      <option value="3">Right</option>
+      </select></td>
+      <td><select class="form-control r_set1">
+      	<option>1</option>
+      	<option>2</option>
+      	<option>3</option>
+      	<option>4</option>
+      	<option>5</option>
+      	<option>6</option>
+      	<option>7</option>
+      	<option>8</option>
+      	<option>9</option>
+      	<option>10</option>
+      	<option>11</option>
+      	<option>12</option>
+      	<option>13</option>
+      	<option>14</option>
+      	<option>15</option>
+      	<option>16</option>
+      	<option>17</option>
+      	<option>18</option>
+      	<option>19</option>
+      	<option>20</option>
+      	<option>21</option>
+      	<option>22</option>
+      	<option>23</option>
+      	<option>24</option>
+      	<option>25</option>
+      	<option>26</option>
+      </select></td>
+      <td><select class="form-control r_off1">
+      	<option>1</option>
+      	<option>2</option>
+      	<option>3</option>
+      	<option>4</option>
+      	<option>5</option>
+      	<option>6</option>
+      	<option>7</option>
+      	<option>8</option>
+      	<option>9</option>
+      	<option>10</option>
+      	<option>11</option>
+      	<option>12</option>
+      	<option>13</option>
+      	<option>14</option>
+      	<option>15</option>
+      	<option>16</option>
+      	<option>17</option>
+      	<option>18</option>
+      	<option>19</option>
+      	<option>20</option>
+      	<option>21</option>
+      	<option>22</option>
+      	<option>23</option>
+      	<option>24</option>
+      	<option>25</option>
+      	<option>26</option>
+      </select></td>
+      <td>EKMFLGDQVZNTOWYHXUSPAIBRCJ</td>
+      <td>Q -> R</td>
+  		</tr>
+
+  		<tr id="r2">
+  			<td>II</td>
+      <td><select class="form-control r_pos2"><option value="0">None</option>
+      <option value="1">Left</option>
+      <option value="2">Middle</option>
+      <option value="3">Right</option>
+      </select></td>
+      <td><select class="form-control r_set2">
+      	<option>1</option>
+      	<option>2</option>
+      	<option>3</option>
+      	<option>4</option>
+      	<option>5</option>
+      	<option>6</option>
+      	<option>7</option>
+      	<option>8</option>
+      	<option>9</option>
+      	<option>10</option>
+      	<option>11</option>
+      	<option>12</option>
+      	<option>13</option>
+      	<option>14</option>
+      	<option>15</option>
+      	<option>16</option>
+      	<option>17</option>
+      	<option>18</option>
+      	<option>19</option>
+      	<option>20</option>
+      	<option>21</option>
+      	<option>22</option>
+      	<option>23</option>
+      	<option>24</option>
+      	<option>25</option>
+      	<option>26</option>
+      </select></td>
+      <td><select class="form-control r_off2">
+      	<option>1</option>
+      	<option>2</option>
+      	<option>3</option>
+      	<option>4</option>
+      	<option>5</option>
+      	<option>6</option>
+      	<option>7</option>
+      	<option>8</option>
+      	<option>9</option>
+      	<option>10</option>
+      	<option>11</option>
+      	<option>12</option>
+      	<option>13</option>
+      	<option>14</option>
+      	<option>15</option>
+      	<option>16</option>
+      	<option>17</option>
+      	<option>18</option>
+      	<option>19</option>
+      	<option>20</option>
+      	<option>21</option>
+      	<option>22</option>
+      	<option>23</option>
+      	<option>24</option>
+      	<option>25</option>
+      	<option>26</option>
+      </select></td>
+      <td>AJDKSIRUXBLHWTMCQGZNPYFVOE</td>
+      <td>E -> F</td>
+  		</tr>
+
+  		<tr id="r3">
+  			<td>III</td>
+      <td><select class="form-control r_pos3"><option value="0">None</option>
+      <option value="1">Left</option>
+      <option value="2">Middle</option>
+      <option value="3">Right</option>
+      </select></td>
+      <td><select class="form-control r_set3">
+      	<option>1</option>
+      	<option>2</option>
+      	<option>3</option>
+      	<option>4</option>
+      	<option>5</option>
+      	<option>6</option>
+      	<option>7</option>
+      	<option>8</option>
+      	<option>9</option>
+      	<option>10</option>
+      	<option>11</option>
+      	<option>12</option>
+      	<option>13</option>
+      	<option>14</option>
+      	<option>15</option>
+      	<option>16</option>
+      	<option>17</option>
+      	<option>18</option>
+      	<option>19</option>
+      	<option>20</option>
+      	<option>21</option>
+      	<option>22</option>
+      	<option>23</option>
+      	<option>24</option>
+      	<option>25</option>
+      	<option>26</option>
+      </select></td>
+      <td><select class="form-control r_off3">
+      	<option>1</option>
+      	<option>2</option>
+      	<option>3</option>
+      	<option>4</option>
+      	<option>5</option>
+      	<option>6</option>
+      	<option>7</option>
+      	<option>8</option>
+      	<option>9</option>
+      	<option>10</option>
+      	<option>11</option>
+      	<option>12</option>
+      	<option>13</option>
+      	<option>14</option>
+      	<option>15</option>
+      	<option>16</option>
+      	<option>17</option>
+      	<option>18</option>
+      	<option>19</option>
+      	<option>20</option>
+      	<option>21</option>
+      	<option>22</option>
+      	<option>23</option>
+      	<option>24</option>
+      	<option>25</option>
+      	<option>26</option>
+      </select></td>
+      <td>BDFHJLCPRTXVZNYEIWGAKMUSQO</td>
+      <td>V -> W</td>
+  		</tr>
+
+  		<tr id="r4">
+  			<td>IV</td>
+      <td><select class="form-control r_pos4"><option value="0">None</option>
+      <option value="1">Left</option>
+      <option value="2">Middle</option>
+      <option value="3">Right</option>
+      </select></td>
+      <td><select class="form-control r_set4">
+      	<option>1</option>
+      	<option>2</option>
+      	<option>3</option>
+      	<option>4</option>
+      	<option>5</option>
+      	<option>6</option>
+      	<option>7</option>
+      	<option>8</option>
+      	<option>9</option>
+      	<option>10</option>
+      	<option>11</option>
+      	<option>12</option>
+      	<option>13</option>
+      	<option>14</option>
+      	<option>15</option>
+      	<option>16</option>
+      	<option>17</option>
+      	<option>18</option>
+      	<option>19</option>
+      	<option>20</option>
+      	<option>21</option>
+      	<option>22</option>
+      	<option>23</option>
+      	<option>24</option>
+      	<option>25</option>
+      	<option>26</option>
+      </select></td>
+      <td><select class="form-control r_off4">
+      	<option>1</option>
+      	<option>2</option>
+      	<option>3</option>
+      	<option>4</option>
+      	<option>5</option>
+      	<option>6</option>
+      	<option>7</option>
+      	<option>8</option>
+      	<option>9</option>
+      	<option>10</option>
+      	<option>11</option>
+      	<option>12</option>
+      	<option>13</option>
+      	<option>14</option>
+      	<option>15</option>
+      	<option>16</option>
+      	<option>17</option>
+      	<option>18</option>
+      	<option>19</option>
+      	<option>20</option>
+      	<option>21</option>
+      	<option>22</option>
+      	<option>23</option>
+      	<option>24</option>
+      	<option>25</option>
+      	<option>26</option>
+      </select></td>
+      <td>ESOVPZJAYQUIRHXLNFTGKDCMWB</td>
+      <td>J -> K</td>
+  		</tr>
+
+  		<tr id="r5">
+  			<td>V</td>
+      <td><select class="form-control r_pos5"><option value="0">None</option>
+      <option value="1">Left</option>
+      <option value="2">Middle</option>
+      <option value="3">Right</option>
+      </select></td>
+      <td><select class="form-control r_set5">
+      	<option>1</option>
+      	<option>2</option>
+      	<option>3</option>
+      	<option>4</option>
+      	<option>5</option>
+      	<option>6</option>
+      	<option>7</option>
+      	<option>8</option>
+      	<option>9</option>
+      	<option>10</option>
+      	<option>11</option>
+      	<option>12</option>
+      	<option>13</option>
+      	<option>14</option>
+      	<option>15</option>
+      	<option>16</option>
+      	<option>17</option>
+      	<option>18</option>
+      	<option>19</option>
+      	<option>20</option>
+      	<option>21</option>
+      	<option>22</option>
+      	<option>23</option>
+      	<option>24</option>
+      	<option>25</option>
+      	<option>26</option>
+      </select></td>
+      <td><select class="form-control r_off5">
+      	<option>1</option>
+      	<option>2</option>
+      	<option>3</option>
+      	<option>4</option>
+      	<option>5</option>
+      	<option>6</option>
+      	<option>7</option>
+      	<option>8</option>
+      	<option>9</option>
+      	<option>10</option>
+      	<option>11</option>
+      	<option>12</option>
+      	<option>13</option>
+      	<option>14</option>
+      	<option>15</option>
+      	<option>16</option>
+      	<option>17</option>
+      	<option>18</option>
+      	<option>19</option>
+      	<option>20</option>
+      	<option>21</option>
+      	<option>22</option>
+      	<option>23</option>
+      	<option>24</option>
+      	<option>25</option>
+      	<option>26</option>
+      </select></td>
+      <td>VZBRGITYUPSDNHLXAWMJQOFECK</td>
+      <td>Z -> A</td>
+  		</tr>
+  </tbody>
+</table> 
+
+	<button class="btn btn-warning" id="reset_m">Reset</button>
+	<button class="btn btn-primary" id="save_m">Save</button>
+
+
+		</div> 
 	</div>
 </div>
 
@@ -100,8 +405,6 @@ class Substitutor {
 	}
 
 	isLetter(c) {
-		// return whitespace
-		if ((c == ' ') || (c == '\t') || (c == '\n')) return c; 
 		// check if letter: true => return upper case letter
 		let x = c.match(/[a-z]/i);
 		if ( x !== null) {
@@ -283,8 +586,7 @@ class Enigma extends Substitutor {
 
 // Testing
 let ref = new Reflector(" YRUHQSLDPXNGOKMIEBFZCWVJAT"); // Type B
-//let plu = new Plugboard(" SUCDEZGHIJKLMNCPQYATBVWXRF");
-let plu = new Plugboard(undefined);
+let plu = new Plugboard(undefined); // empty
 
 let rotor1 = new Rotor(" EKMFLGDQVZNTOWYHXUSPAIBRCJ", 1, 17, "Q");
 let rotor2 = new Rotor(" AJDKSIRUXBLHWTMCQGZNPYFVOE", 1, 5, "E");
@@ -295,24 +597,39 @@ let rotor5 = new Rotor(" VZBRGITYUPSDNHLXAWMJQOFECK", 5, 25, "Z");
 // reflector, plugboard, leftRotor, middleRotor, rightRotor
 let test_machine = new Enigma(ref, plu, rotor1, rotor2, rotor3);
 
+
 // primitive gui
 $(function(){
 
 	$( "#plainttext" ).focus();
 
 	$("#plainttext").keyup(function(){
-
 		let x = $(this).val();
+		
+		//whitespace
+		if ((x == ' ') || (x == '\t') || (x == '\n')) { 
+			$("#message").val(x); return;
+		}
+
+		// encryption
 		$("#cifertext").val(test_machine.encrypt(x[x.length-1]));
 		$("#plainttext").val(x[x.length-1]);
 		$("#message").val($("#message").val().concat($("#cifertext").val()));
 		
 	});
 
+	// clear input 
 	$(".clear_btn").click(function(){
 		$("#cifertext, #plainttext, #message").val("");
 	});
-})
+
+	// reset enigma settings
+	$("#reset_m").click(function() {
+
+	});
+
+
+});
 
 </script>
 
