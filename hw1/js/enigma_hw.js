@@ -21,8 +21,10 @@ class Substitutor {
 	}
 
 	circular_shift(ind) {
+		console.time('circular_shift');
 		if (ind > 26) { ind = ind - 26;}
 		if(ind < 1) { ind = 26 - Math.abs(ind); }
+		console.timeEnd('circular_shift');
 		return ind;
 	}
 }	
@@ -92,6 +94,7 @@ class Rotor extends Translator {
 	}
 
 	translate_forward_reverse(c, direction) {
+		console.time('translate_forward_reverse');
 
 		let i1 = 1; // index to run over A-Z array
 		let i2 = 1; // index to run over rotor's array
@@ -121,6 +124,8 @@ class Rotor extends Translator {
 		i2 = i2 + this.setting;	// shift right (via setting)
 		i2 = this.circular_shift(i2); 
 
+
+		console.timeEnd('translate_forward_reverse');
 		return this.baseAZ.charAt(i2);
 	}
 
@@ -156,6 +161,10 @@ class Enigma extends Substitutor {
 	setMiddleRotor(rotor) { this.middleRotor = rotor; }
 	setRightRotor(rotor) { this.rightRotor = rotor; }
 
+	getLeftRotor() { return this.leftRotor; }
+	getMiddleRotor() { return this.middleRotor; }
+	getRightRotor() { return this.rightRotor; }
+
 	notchingCheck() {
 	if (this.rightRotor.notch() || this.middleRotor.notch()) {
 			if(this.middleRotor.notch()) {
@@ -169,9 +178,9 @@ class Enigma extends Substitutor {
 	 encrypt(c) {
 	 	console.time('encrypt');
 
-	 	console.time('plugboard_translate');
+	 	console.time('plugboard_translate_f');
 		let step1 = this.plugboard.translate(c);
-		console.timeEnd('plugboard_translate');
+		console.timeEnd('plugboard_translate_f');
 
 		this.notchingCheck();
 
@@ -183,13 +192,18 @@ class Enigma extends Substitutor {
 		let step3 = this.middleRotor.translate_forward_reverse(step2, true);
 		let step4 = this.leftRotor.translate_forward_reverse(step3, true);
 
+		console.time('reflector_translate');
 		let step5 = this.reflector.simple_translate(step4);
+		console.timeEnd('reflector_translate');
 
 		let step6 = this.leftRotor.translate_forward_reverse(step5, false);
 		let step7 = this.middleRotor.translate_forward_reverse(step6, false);
 		let step8 = this.rightRotor.translate_forward_reverse(step7, false);
 
+		console.time('plugboard_translate_r');
 		let step9 = this.plugboard.translate(step8);
+		console.timeEnd('plugboard_translate_r');
+
 
 		console.timeEnd('encrypt');
 		return step9;
