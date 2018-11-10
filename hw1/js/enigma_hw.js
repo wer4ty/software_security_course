@@ -51,6 +51,32 @@ class Plugboard extends Translator {
 		super(az);
 	}
 
+	inputCheck(str) {
+		//ZU HL CQ WM OA PY EB TR DN VI
+		if (str === undefined || str === "") return true;
+		else {
+
+			let k = str.split(" ");
+			if (k.length <= 1) { return false; }
+
+			let i = 0;
+			let tmp_arr = new Array(26);
+
+			while (i<k.length) {
+				let a_ind = this.indexViaAZ(k[i][0]);
+				if (tmp_arr[a_ind] !== undefined) { return false; }
+				else { tmp_arr[a_ind] = k[i][1]; }
+
+				a_ind = this.indexViaAZ(k[i][1]);
+				if (tmp_arr[a_ind] !== undefined) { return false; }
+				else { tmp_arr[a_ind] = k[i][0]; }
+
+				i++;
+			}
+			return true;
+		}
+	}
+
 	translate(c) {
 		if (this.az === undefined || this.az === "" ) { return c; }
 		let tmp = this.az.split(" ");
@@ -252,9 +278,13 @@ function default_conf() {
 
 }
 
-
 function new_conf() {
 	$("tr").removeClass("highlight");
+
+	if (!(plu.inputCheck($("#plugboard_setup").val()))) {
+		error_display("Plugboard configuration wrong. Pay attention :) ");
+	}
+
 	plu.setAZ($("#plugboard_setup").val());
 
 	rotor1.setOffset(parseInt($(".r_off1").val()));
@@ -318,6 +348,15 @@ function letterCheck() {
 	return false;
 }
 
+function error_display(error_text) {
+	$(".error_text").text(error_text);
+	$(".shadow, .modal").fadeIn();
+}
+
+function error_close() {
+	$(".shadow, .modal").fadeOut();
+}
+
 // primitive gui
 $(function(){
 
@@ -331,6 +370,10 @@ $(function(){
 		if ((x == ' ') || (x == '\t') || (x == '\n')) { 
 			$("#message").val($("#message").val().concat(x));
 			$("#plainttext").val(x[x.length-1]);
+		}
+
+		if (x.match(/[0-9]/i)) {
+			error_display("Sorry I am enigma not a personal computer type only letters please");
 		}
 
 		if (letterCheck(x)) {
@@ -373,6 +416,11 @@ $(function(){
 
 	$( "#plugboard_setup" ).autocomplete({
       source: ["ZU HL CQ WM OA PY EB TR DN VI", "AT CE RL"]
+    });
+
+    //error reporting close
+    $(".closeModal").click(function(){
+    	error_close();
     });
 
 });
