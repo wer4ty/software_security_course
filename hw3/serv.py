@@ -7,6 +7,8 @@ while True:
 	s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	s.bind((HOST, PORT))
 	data, addr = s.recvfrom(1024)
-	print ('Connected by', addr)
+	print (addr)
 	print (data)
-	s.close()
+	data += "CR/LF"
+	sent = s.sendto(data, addr)
+s.close()
