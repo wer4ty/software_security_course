@@ -3,18 +3,15 @@ import time
 
 from scapy.all import *
 
-# set interface
-conf.iface="lo0"
-
 # create IP packet
-ip_pkt = IP()/UDP(dport=12321)
-ip_pkt.payload = "payload test message"
+#ip_pkt = IP()/UDP(dport=12321)
+#ip_pkt.payload = "payload test message"
 #ip_pkt.dport = 12321
-ip_pkt.dst = "127.0.0.1"
-ip_pkt.src = "127.0.0.1"
+#ip_pkt.dst = "127.0.0.1"
+#ip_pkt.src = "127.0.0.1"
 
 # send out packet
-send(ip_pkt)
+#send(ip_pkt)
 
 
 #host="127.0.0.1"
@@ -33,17 +30,17 @@ send(ip_pkt)
 #  time.sleep(3)
 
 
-# server_address = ('127.0.0.1', 12321)
-# message = 'This is the message.  It will be repeated.'
-# i = 0
-# s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+server_address = ('127.0.0.1', 12321)
+message = 'This is the message.  It will be repeated.'
+i = 0
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-# while True:
-# 	i+=1
-# 	message2 = str(i)+" "+message
-# 	time.sleep(3)
-# 	sent = s.sendto(message2, server_address)
-# 	data, server = s.recvfrom(1024)
-# 	print(data)
+while True:
+ 	i+=1
+ 	message2 = str(i)+" "+message
+ 	time.sleep(3)
+ 	sent = s.sendto(message2, server_address)
+ 	data, server = s.recvfrom(1024)
+ 	print(data, server)
 
-# s.close()
+s.close()
